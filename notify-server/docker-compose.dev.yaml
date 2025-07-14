@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  notify_server:
+    container_name: notify_server
+    image: notify_server 
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.devtest
+    volumes:
+      - ./:/src
+    ports:
+      - 1232:8000
+
+networks:
+  default:
+    name: app_main
+

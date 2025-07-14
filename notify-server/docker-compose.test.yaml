@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  command_server_test:
+    container_name: command_server_test
+    image: command_server 
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.devtest
+    ports:
+      - 8099:8000
+    depends_on:
+      - mysql_db_80_test
+
+  mysql_db_80_test:
+    container_name: mysql_db_80_test
+    hostname: mysql_db_80_test
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=command_server
+      - MYSQL_USER=commnand_server
+      - MYSQL_PASSWORD=commnand_server
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - 12434:3306
+
+volumes:
+  db:
+    driver: "local"
+
+networks:
+  default:
+    name: app_main
+
